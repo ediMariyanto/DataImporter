@@ -55,7 +55,6 @@ public class MainMenu extends javax.swing.JFrame
     {
 
         jLabel1 = new javax.swing.JLabel();
-        dateTransaction = new com.toedter.calendar.JDateChooser();
         jLabel2 = new javax.swing.JLabel();
         cbChannel = new javax.swing.JComboBox<>();
         cbOrderSource = new javax.swing.JComboBox<>();
@@ -71,6 +70,7 @@ public class MainMenu extends javax.swing.JFrame
         jSeparator4 = new javax.swing.JSeparator();
         progressBar = new javax.swing.JProgressBar();
         btnTestConnection = new javax.swing.JButton();
+        dateTransaction = new com.toedter.calendar.JDateChooser();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -81,10 +81,6 @@ public class MainMenu extends javax.swing.JFrame
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         jLabel1.setText("Transaction Date :");
-
-        dateTransaction.setAutoscrolls(true);
-        dateTransaction.setDateFormatString("yy/MM/dd");
-        dateTransaction.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         jLabel2.setText("Channel  :");
@@ -144,6 +140,8 @@ public class MainMenu extends javax.swing.JFrame
             }
         });
 
+        dateTransaction.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
 
@@ -171,7 +169,6 @@ public class MainMenu extends javax.swing.JFrame
                                     .addComponent(txtSelectFile, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(btnSearch))
-                                .addComponent(dateTransaction, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(cbChannel, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
@@ -179,7 +176,8 @@ public class MainMenu extends javax.swing.JFrame
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(cbOrderSource, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(btnTestConnection, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(btnTestConnection, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(dateTransaction, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 739, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -197,8 +195,8 @@ public class MainMenu extends javax.swing.JFrame
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel1)
-                    .addComponent(dateTransaction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dateTransaction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -279,15 +277,14 @@ public class MainMenu extends javax.swing.JFrame
             int i = 0;
             while ((str = in.readLine()) != null)
             {
-                progressBar.setValue(10);
+                progressBar.setValue(0);
                 i = i + 1;
                 idxMdl.setIdxorderid(i);
                 String strConv = str.replaceAll("\"", "");
                 String data[] = strConv.split(";");
                 Date tradeDate = formatDate.parse(data[1]);
-                Date MTime = formatDate.parse("17/02/2017");
-                
-                idxMdl.setMtIme(MTime);
+                                
+                idxMdl.setMtIme(dateTransaction.getDate());
                 idxMdl.setMktid(data[0]);
                 idxMdl.setTradedate(tradeDate);
                 idxMdl.setStockcode(data[2]);
@@ -308,7 +305,7 @@ public class MainMenu extends javax.swing.JFrame
                         + " ,BOARDCODE\n"
                         + " ,MKTID\n"
                         + " ,BS\n"
-                        //+ " ,MTIME\n"
+                        + " ,MTIME\n"
                         + " ,MQTY\n"
                         + " ,LOTSIZE\n"
                         + " ,MPRICE\n"
@@ -332,45 +329,40 @@ public class MainMenu extends javax.swing.JFrame
                         + " ,ISGENERATED\n"
                         + " ,ACCSOPID\n"
                         + " ,CHANNELCODE)\n"
-                        + " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                        + " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 this.con = this.idxConn.getConnection();
                 PreparedStatement ps = this.con.prepareStatement(sql);
                 ps.setString(1, idxMdl.getIdxtradeid());
-                
                 ps.setInt(2, idxMdl.getIdxorderid());
-                progressBar.setValue(20);
                 ps.setDate(3, new java.sql.Date(idxMdl.getTradedate().getTime()));
-                progressBar.setValue(30);
-                ps.setString(4, "AALI");//idxMdl.getStockcode());
-                progressBar.setValue(40);
+                ps.setString(4, idxMdl.getStockcode());
                 ps.setString(5, idxMdl.getBoardcode());
-                progressBar.setValue(50);
                 ps.setString(6, idxMdl.getMktid());
                 ps.setString(7, idxMdl.getBs());
                 ps.setDate(8, new java.sql.Date(idxMdl.getMtIme().getTime())); 
-                ps.setFloat(8, idxMdl.getMqty());
-                ps.setFloat(9, idxMdl.getLotsize());
-                ps.setFloat(10, idxMdl.getMprice());
-                ps.setString(11, idxMdl.getCpbroker());
-                ps.setString(12, idxMdl.getCpdealer());
+                ps.setFloat(9, idxMdl.getMqty());
+                ps.setFloat(10, idxMdl.getLotsize());
+                ps.setFloat(11, idxMdl.getMprice());
+                ps.setString(12, idxMdl.getCpbroker());
+                ps.setString(13, idxMdl.getCpdealer());
                 // ps.setDate(13, new java.sql.Date (idxMdl.getModda().getTime()));
-                ps.setString(13, idxMdl.getModui());
+                ps.setString(14, idxMdl.getModui());
                 // ps.setDate(15, new java.sql.Date (idxMdl.getInsda().getTime()));
-                ps.setString(14, idxMdl.getInsui());
-                ps.setString(15, idxMdl.getSid());
-                ps.setString(16, idxMdl.getBrkreff());
-                ps.setString(17, idxMdl.getExrefcode());
-                ps.setFloat(18, idxMdl.getAllocqty());
-                ps.setString(19, idxMdl.getAlloc());
-                ps.setString(20, idxMdl.getAccinit());
-                ps.setString(21, idxMdl.getTrdmemo());
-                ps.setString(22, idxMdl.getAccinit());
-                ps.setString(23, idxMdl.getOrdsource());
-                ps.setInt(24, idxMdl.getDealticketId());
-                ps.setString(25, idxMdl.getOrdercode());
-                ps.setString(26, "1");  //idxMdl.getIsgeneretes());
-                ps.setInt(27, idxMdl.getAccsopid());
-                ps.setString(28, idxMdl.getChannelcode());
+                ps.setString(15, idxMdl.getInsui());
+                ps.setString(16, idxMdl.getSid());
+                ps.setString(17, idxMdl.getBrkreff());
+                ps.setString(18, idxMdl.getExrefcode());
+                ps.setFloat(19, idxMdl.getAllocqty());
+                ps.setString(20, idxMdl.getAlloc());
+                ps.setString(21, idxMdl.getAccinit());
+                ps.setString(22, idxMdl.getTrdmemo());
+                ps.setString(23, idxMdl.getAccinit());
+                ps.setString(24, idxMdl.getOrdsource());
+                ps.setInt(25, idxMdl.getDealticketId());
+                ps.setString(26, idxMdl.getOrdercode());
+                ps.setString(27, "1");  //idxMdl.getIsgeneretes());
+                ps.setInt(28, idxMdl.getAccsopid());
+                ps.setString(29, idxMdl.getChannelcode());
                 ps.executeUpdate();
                 progressBar.setValue(100);
             }
