@@ -251,6 +251,7 @@ public class MainMenu extends javax.swing.JFrame
 
     private void btnImportActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnImportActionPerformed
     {//GEN-HEADEREND:event_btnImportActionPerformed
+
         try
         {
             importFile();
@@ -283,7 +284,7 @@ public class MainMenu extends javax.swing.JFrame
                 String strConv = str.replaceAll("\"", "");
                 String data[] = strConv.split(";");
                 Date tradeDate = formatDate.parse(data[1]);
-                                
+
                 idxMdl.setMtIme(dateTransaction.getDate());
                 idxMdl.setMktid(data[0]);
                 idxMdl.setTradedate(tradeDate);
@@ -339,7 +340,7 @@ public class MainMenu extends javax.swing.JFrame
                 ps.setString(5, idxMdl.getBoardcode());
                 ps.setString(6, idxMdl.getMktid());
                 ps.setString(7, idxMdl.getBs());
-                ps.setDate(8, new java.sql.Date(idxMdl.getMtIme().getTime())); 
+                ps.setDate(8, new java.sql.Date(idxMdl.getMtIme().getTime()));
                 ps.setFloat(9, idxMdl.getMqty());
                 ps.setFloat(10, idxMdl.getLotsize());
                 ps.setFloat(11, idxMdl.getMprice());
@@ -431,7 +432,6 @@ public class MainMenu extends javax.swing.JFrame
                 break;
         }
     }
-
 
     private void testConnection()
     {
