@@ -5,6 +5,7 @@ import idxalltrade.controller.idxalltradeController;
 import idxalltrade.model.idxAllTradeModel;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -54,6 +55,7 @@ public class MainMenu extends javax.swing.JFrame
     private void initComponents()
     {
 
+        dateUtil1 = new com.toedter.calendar.DateUtil();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         cbChannel = new javax.swing.JComboBox<>();
@@ -141,6 +143,7 @@ public class MainMenu extends javax.swing.JFrame
         });
 
         dateTransaction.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        dateTransaction.setPreferredSize(new java.awt.Dimension(123, 25));
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -170,14 +173,15 @@ public class MainMenu extends javax.swing.JFrame
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(btnSearch))
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(cbChannel, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(dateTransaction, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(cbChannel, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGap(18, 18, 18)
                                     .addComponent(jLabel3)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(cbOrderSource, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(btnTestConnection, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(dateTransaction, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(btnTestConnection, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 739, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -254,8 +258,8 @@ public class MainMenu extends javax.swing.JFrame
 
         try
         {
-            importFile();
-        } catch (ParseException | SQLException ex)
+            validationTransDate();
+        } catch (ParseException | SQLException | IOException ex)
         {
             Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -266,9 +270,29 @@ public class MainMenu extends javax.swing.JFrame
         testConnection();
     }//GEN-LAST:event_btnTestConnectionActionPerformed
 
+    private void validationTransDate() throws IOException, ParseException, SQLException
+    {
+        in = new BufferedReader(new FileReader(txtSelectFile.getText()));
+        String str[] = in.readLine().replaceAll("\"", "").split(";");
+        formatDate = new SimpleDateFormat("dd/mm/yy");
+        String upldDate  = str[1].split(" ")[0];
+        Date uploadDate = formatDate.parse(upldDate);
+        Date transDate = dateTransaction.getDate();
+
+        System.out.println("Upload Date : " + uploadDate);
+        System.out.println("Trans Date : " + transDate);
+       
+        if (uploadDate == transDate)
+        {
+            importFile();
+        } else
+        {
+            JOptionPane.showMessageDialog(null, "Transaction Data Not Valid!!");
+        }
+    }
+
     private void importFile() throws ParseException, SQLException
     {
-
         try
         {
             in = new BufferedReader(new FileReader(txtSelectFile.getText()));
@@ -361,7 +385,7 @@ public class MainMenu extends javax.swing.JFrame
                 ps.setString(24, idxMdl.getOrdsource());
                 ps.setInt(25, idxMdl.getDealticketId());
                 ps.setString(26, idxMdl.getOrdercode());
-                ps.setString(27, "1");  //idxMdl.getIsgeneretes());
+                ps.setString(27, "0");  //idxMdl.getIsgeneretes());
                 ps.setInt(28, idxMdl.getAccsopid());
                 ps.setString(29, idxMdl.getChannelcode());
                 ps.executeUpdate();
@@ -502,6 +526,7 @@ public class MainMenu extends javax.swing.JFrame
     private javax.swing.JComboBox<String> cbChannel;
     private javax.swing.JComboBox<String> cbOrderSource;
     private com.toedter.calendar.JDateChooser dateTransaction;
+    private com.toedter.calendar.DateUtil dateUtil1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
