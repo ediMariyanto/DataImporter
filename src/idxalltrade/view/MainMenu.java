@@ -5,7 +5,6 @@ import idxalltrade.controller.idxalltradeController;
 import idxalltrade.model.idxAllTradeModel;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -27,6 +26,8 @@ import javax.swing.JOptionPane;
 public class MainMenu extends javax.swing.JFrame
 {
 
+    
+    
     idxalltradeConnection conect;
     idxalltradeController idxCtr;
     idxAllTradeModel idxMdl;
@@ -36,7 +37,8 @@ public class MainMenu extends javax.swing.JFrame
     private BufferedReader in;
     private final idxalltradeConnection idxConn = new idxalltradeConnection();
     private Connection con = null;
-
+    private int i;
+    
     public MainMenu()
     {
         initComponents();
@@ -142,6 +144,7 @@ public class MainMenu extends javax.swing.JFrame
             }
         });
 
+        dateTransaction.setDateFormatString("dd/MM/yy");
         dateTransaction.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         dateTransaction.setPreferredSize(new java.awt.Dimension(123, 25));
 
@@ -258,8 +261,18 @@ public class MainMenu extends javax.swing.JFrame
 
         try
         {
-            validationTransDate();
-        } catch (ParseException | SQLException | IOException ex)
+            importFile();
+//        try
+//        {
+//            validationTransDate();
+//        } catch (ParseException | SQLException | IOException ex)
+//        {
+//            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        } catch (ParseException ex)
+        {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex)
         {
             Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -274,15 +287,17 @@ public class MainMenu extends javax.swing.JFrame
     {
         in = new BufferedReader(new FileReader(txtSelectFile.getText()));
         String str[] = in.readLine().replaceAll("\"", "").split(";");
-        formatDate = new SimpleDateFormat("dd/mm/yy");
-        String upldDate  = str[1].split(" ")[0];
-        Date uploadDate = formatDate.parse(upldDate);
+        formatDate = new SimpleDateFormat("dd/MM/yy");
+        Date uploadDate = formatDate.parse(str[1]);
         Date transDate = dateTransaction.getDate();
 
-        System.out.println("Upload Date : " + uploadDate);
-        System.out.println("Trans Date : " + transDate);
-       
-        if (uploadDate == transDate)
+        String upldDate = formatDate.format(uploadDate);
+        String trxDate = formatDate.format(transDate);
+
+        System.out.println("Upload Date : " + upldDate);
+        System.out.println("Trans Date : " + trxDate);
+
+        if (upldDate == trxDate)
         {
             importFile();
         } else

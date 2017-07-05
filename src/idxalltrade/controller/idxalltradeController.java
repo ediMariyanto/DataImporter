@@ -2,8 +2,6 @@ package idxalltrade.controller;
 
 import idxalltrade.DaoImpl.idxalltradeDaoImpl;
 import idxalltrade.dao.idxalltradeDao;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
@@ -11,7 +9,7 @@ import javax.swing.JOptionPane;
  *
  * @author Cakra
  */
-public class idxalltradeController
+public class idxalltradeController 
 {
 
     idxalltradeDao idxDao;
@@ -33,4 +31,8 @@ public class idxalltradeController
 
     }
 
+    public static void main(String[] args)
+    {
+        System.out.println("Cetak");
+    }
 }

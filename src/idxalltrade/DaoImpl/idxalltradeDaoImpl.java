@@ -43,5 +43,4 @@ public class idxalltradeDaoImpl implements idxalltradeDao
         }
         return null;
     }
-
 }

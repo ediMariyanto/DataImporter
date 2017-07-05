@@ -29,7 +29,7 @@ public class idxalltradeConnection
         this.jdbc = "jdbc:jtds:sqlserver://";
         this.host = "127.0.0.1:";
         this.port = "1433/";
-        this.databaseName = "Nayaga";
+        this.databaseName = "Nayaga_Hashcheck";
         this.username = "sa";
         this.password = "Cakra123$";
         this.url = this.jdbc + this.host + this.port + this.databaseName;
@@ -78,4 +78,17 @@ public class idxalltradeConnection
         }
     }
 
+    public static void main(String[] args)
+    {
+        try
+        {
+            idxalltradeConnection id = new idxalltradeConnection();
+            System.out.println(id.getConnection().isClosed());
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(idxalltradeConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
 }
+

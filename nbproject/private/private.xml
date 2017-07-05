@@ -3,13 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Cakra/Documents/NetBeansProjects/IDXAllTrade/src/idxalltrade/view/MainMenu.java</file>
-            <file>file:/C:/Users/Cakra/Documents/NetBeansProjects/IDXAllTrade/src/idxalltrade/dao/idxalltradeDao.java</file>
-            <file>file:/C:/Users/Cakra/Documents/NetBeansProjects/IDXAllTrade/src/idxalltrade/DaoImpl/idxalltradeDaoImpl.java</file>
+            <file>file:/C:/Users/Cakra/Documents/NetBeansProjects/IDXAllTrade/src/idxalltrade/connection/CobaConnection.java</file>
             <file>file:/C:/Users/Cakra/Documents/NetBeansProjects/IDXAllTrade/src/idxalltrade/connection/idxalltradeConnection.java</file>
-            <file>file:/C:/Users/Cakra/Documents/NetBeansProjects/IDXAllTrade/src/idxalltrade/IDXAllTrade.java</file>
-            <file>file:/C:/Users/Cakra/Documents/NetBeansProjects/IDXAllTrade/src/idxalltrade/controller/idxalltradeController.java</file>
-            <file>file:/C:/Users/Cakra/Documents/NetBeansProjects/IDXAllTrade/src/idxalltrade/model/idxAllTradeModel.java</file>
         </group>
     </open-files>
 </project-private>

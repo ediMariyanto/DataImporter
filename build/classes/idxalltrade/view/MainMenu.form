@@ -265,6 +265,7 @@
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="dateTransaction">
       <Properties>
+        <Property name="dateFormatString" type="java.lang.String" value="dd/MM/yy"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="11" style="0"/>
         </Property>
