@@ -29,9 +29,9 @@ public class idxalltradeConnection
         this.jdbc = "jdbc:jtds:sqlserver://";
         this.host = "127.0.0.1:";
         this.port = "1433/";
-        this.databaseName = "Nayaga_Hashcheck";
-        this.username = "sa";
-        this.password = "Cakra123$";
+        this.databaseName = "";
+        this.username = "";
+        this.password = "";
         this.url = this.jdbc + this.host + this.port + this.databaseName;
 
     }
